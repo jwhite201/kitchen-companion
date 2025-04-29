@@ -65,4 +65,6 @@ def find_substitute():
         return jsonify({'error': 'API call failed', 'details': response.text}), response.status_code
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=10000)
+
+
