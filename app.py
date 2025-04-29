@@ -2,24 +2,28 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
 import os
-import openai
+from openai import OpenAI
 from dotenv import load_dotenv
 
+# Load environment variables
 load_dotenv()
 
+# Initialize Flask app
 app = Flask(__name__)
 CORS(app)
 
-# Load your API keys from environment variables
+# Load API keys
 SPOONACULAR_API_KEY = os.getenv("SPOONACULAR_API_KEY")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-openai_client = openai.OpenAI(api_key=OPENAI_API_KEY)
+
+# Initialize OpenAI client (v1+)
+openai_client = OpenAI(api_key=OPENAI_API_KEY)
 
 @app.route('/')
 def home():
     return "Kitchen Companion is live!"
 
-# GPT Assistant Endpoint
+# 🔹 GPT Assistant Route
 @app.route('/ask_gpt', methods=['POST'])
 def ask_gpt():
     data = request.get_json()
@@ -41,7 +45,7 @@ def ask_gpt():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# Recipe Search Endpoint
+# 🔹 Recipe Search Route
 @app.route('/search_recipes', methods=['GET'])
 def search_recipes():
     query = request.args.get('query')
@@ -71,7 +75,7 @@ def search_recipes():
     else:
         return jsonify({'error': 'API call failed', 'details': response.text}), response.status_code
 
-# Recipe Details Endpoint
+# 🔹 Recipe Details Route
 @app.route('/get_recipe_details', methods=['GET'])
 def get_recipe_details():
     recipe_id = request.args.get('id')
@@ -89,5 +93,6 @@ def get_recipe_details():
     else:
         return jsonify({'error': 'API call failed', 'details': response.text}), response.status_code
 
+# 🔹 Flask Server Init
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=10000)
