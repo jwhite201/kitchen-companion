@@ -1,6 +1,16 @@
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+import os
+import requests
+import openai
+from dotenv import load_dotenv
+
+load_dotenv()
+
+app = Flask(__name__)
+CORS(app)
 @app.route('/ask_gpt', methods=['POST'])
 def ask_gpt():
-    import openai
     openai.api_key = os.getenv("OPENAI_API_KEY")
 
     data = request.get_json()
