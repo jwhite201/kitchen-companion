@@ -1,7 +1,3 @@
-from flask_cors import CORS
-app = Flask(__name__)
-CORS(app)
-
 from flask import Flask, request, jsonify
 import requests
 from dotenv import load_dotenv
@@ -9,8 +5,7 @@ import os
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
-
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Spoonacular API Key loaded from environment
 API_KEY = os.getenv('SPOONACULAR_API_KEY')
