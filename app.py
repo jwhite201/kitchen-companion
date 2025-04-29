@@ -34,7 +34,8 @@ def ask_gpt():
 
     try:
         response = openai_client.chat.completions.create(
-            model="gpt-4",
+            model="gpt-3.5-turbo",
+            temperature=0.7
             messages=[
                 {"role": "system", "content": "You are The Kitchen Companion, a smart and helpful AI chef assistant. Always suggest healthy, realistic, and inspiring ideas."},
                 {"role": "user", "content": user_input}
