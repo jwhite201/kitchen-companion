@@ -42,6 +42,21 @@ def search_recipes():
         return jsonify(response.json())
     else:
         return jsonify({'error': 'API call failed', 'details': response.text}), response.status_code
+@app.route('/get_recipe_details', methods=['GET'])
+def get_recipe_details():
+    recipe_id = request.args.get('id')
+    if not recipe_id:
+        return jsonify({'error': 'Missing id parameter'}), 400
+
+    url = f'https://api.spoonacular.com/recipes/{recipe_id}/information'
+    params = {'apiKey': API_KEY}
+
+    response = requests.get(url, params=params)
+
+    if response.status_code == 200:
+        return jsonify(response.json())
+    else:
+        return jsonify({'error': 'API call failed', 'details': response.text}), response.status_code
 
 @app.route('/substitute', methods=['GET'])
 def find_substitute():
